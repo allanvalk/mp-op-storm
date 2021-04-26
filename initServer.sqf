@@ -8,7 +8,7 @@ ARES_saveMission = {
 	"Save started..." remoteExec ["hint"];
 	profileNamespace setVariable ["ARES_resourceCounterSave", resourceCounterVar];
 	profileNamespace setVariable ["ARES_supportCounterSave", resourceCounterVar];
-	savedVehicles = [];
+	_savedVehicles = [];
 	{
 
 		if (_x getVariable ["ARES_vehicleToSave", false]) then {
@@ -19,11 +19,11 @@ ARES_saveMission = {
 			_rotationUp = vectorUp _x;
 
 			_vehicleData = [[_className, _postion, _status, _rotationDir, _rotationUp]];
-			savedVehicles append _vehicleData;
+			_savedVehicles append _vehicleData;
 		};
 
 	} forEach allMissionObjects "all";
-	profileNamespace setVariable ["ARES_savedVehicles", savedVehicles];
+	profileNamespace setVariable ["ARES_savedVehicles", _savedVehicles];
 	"Mission saved" remoteExec ["hint"];
 };
 
