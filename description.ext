@@ -1,0 +1,52 @@
+class CfgRespawnInventory
+{
+	class aresDefaultRespawn
+	{
+		displayName = "Default";
+		icon = "\A3\Ui_f\data\GUI\Cfg\Ranks\sergeant_gs.paa";
+		role = "Default";
+		show = "true";
+		uniformClass = "rhs_uniform_FROG01_wd";
+		backpack = "";
+		weapons[] = {"Throw","Put"};
+		magazines[] = {};
+		items[] = {};
+		linkedItems[] = {"rhsusf_spc","rhsusf_mich_helmet_marpatwd_norotos","","ItemMap","ItemCompass","ItemWatch","TFAR_anprc152","ItemGPS","","","","","","","",""};
+	};
+};
+
+#include "ARES_BuyMenu_Dialog.h"
+
+class Params
+{
+    class autoTask
+    {
+        title = "Enable auto task generation";
+        values[] = {1,0};
+        texts[] = {"Yes","No"};
+        default = 0;
+    };
+
+	class autoLoad
+    {
+        title = "Enable latest save load";
+        values[] = {1,0};
+        texts[] = {"Yes","No"};
+        default = 1;
+    };
+};
+
+class CfgSounds {
+	class Sound_ambience
+	{	
+		name = "ambience";
+		sound[] = { "ambience.ogg", 0.2, 1};	
+		titles[] = {};
+	};
+	class Sound_numbers
+	{	
+		name = "numbers";
+		sound[] = { "numbers.ogg", 0.8, 1};	
+		titles[] = {};
+	};
+};
