@@ -26,7 +26,7 @@ ARES_cancelTask = {
 		if ((typeName _x) == "STRING") then {
 			{
 				deleteMarker _x;
-			} forEach units _x;
+			} forEach _x;
 		};
 		if ((typeName _x) == "ARRAY") then {
 			{
