@@ -23,6 +23,16 @@ ARES_cancelTask = {
 				deleteVehicle _x;
 			} forEach units _x;
 		};
+		if ((typeName _x) == "STRING") then {
+			{
+				deleteMarker _x;
+			} forEach units _x;
+		};
+		if ((typeName _x) == "ARRAY") then {
+			{
+				deleteVehicle _x;
+			} forEach _x;
+		};
 	} forEach _objectsDelete;
 	ARES_activeCustomTask = [];
 	publicVariable "ARES_activeCustomTask";

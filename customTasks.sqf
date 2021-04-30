@@ -29,6 +29,9 @@ ARES_deliverSupplies = {
 	["deliverSupplies"] call BIS_fnc_deleteTask;
 	deleteVehicle _targetObj;
 	deleteVehicle _deliverObj;
+
+	ARES_activeCustomTask = [];
+	publicVariable "ARES_activeCustomTask";
 };
 
 ARES_saveCivilian = {
@@ -71,6 +74,9 @@ ARES_saveCivilian = {
 	
 	["saveCivilian"] call BIS_fnc_deleteTask;
 	deleteVehicle _saveObj;
+
+	ARES_activeCustomTask = [];
+	publicVariable "ARES_activeCustomTask";
 };
 
 ARES_radioTower = {
@@ -99,6 +105,9 @@ ARES_radioTower = {
 	
 	["radioTower"] call BIS_fnc_deleteTask;
 	deleteVehicle _targetObj;
+
+	ARES_activeCustomTask = [];
+	publicVariable "ARES_activeCustomTask";
 };
 
 ARES_killOfficer = {
@@ -140,6 +149,9 @@ ARES_killOfficer = {
 	{
 		deleteVehicle _x;
 	} forEach units _targetGuard_2;
+
+	ARES_activeCustomTask = [];
+	publicVariable "ARES_activeCustomTask";
 };
 
 ARES_destroyCache = {
@@ -184,6 +196,9 @@ ARES_destroyCache = {
 	{
 		deleteVehicle _x;
 	} forEach units _targetGuard_2;
+
+	ARES_activeCustomTask = [];
+	publicVariable "ARES_activeCustomTask";
 };
 
 ARES_destroyAA = {
@@ -230,4 +245,46 @@ ARES_destroyAA = {
 	{
 		deleteVehicle _x;
 	} forEach units _targetGuard_2;
+
+	ARES_activeCustomTask = [];
+	publicVariable "ARES_activeCustomTask";
+};
+
+ARES_clearMinefield = {
+	_targetPos = [0,0,0];
+	_mineList = [];
+
+	_targetPos = [nil, ["water", "closedArea", "AO_BLUFOR", "labAreaMarker"]] call BIS_fnc_randomPos;
+
+	for [{_i = 0}, {_i < 10}, {_i = _i + 1}] do {
+		_mine = createMine [(selectRandom ["APERSMine", "ATMine", "APERSBoundingMine", "APERSMineDispenser_Mine_F"]), _targetPos, [], 0];
+		_mineList append [_mine];
+	};
+
+	{
+		_x setVehiclePosition [([_targetPos, random 50, random 360] call BIS_fnc_relPos), [], 0, "CAN_COLLIDE"];
+	} forEach _mineList;
+
+	[west, ["clearMinefield"], ["Расчистите местность от мин, чтобы избежать жертв среди местного населения.", "Минное поле", ""], _targetPos, 0, -1, true, ""] call BIS_fnc_taskCreate;
+
+	ARES_activeCustomTask = ["clearMinefield", [_mineList]];
+	publicVariable "ARES_activeCustomTask";
+
+	waitUntil { ({alive _x} count _mineList) == 0 };
+
+	if (("clearMinefield" call BIS_fnc_taskState) == "FAILED") exitWith {};
+
+	["clearMinefield","SUCCEEDED"] call BIS_fnc_taskSetState;
+	["resourceCounter", 5] call ARES_updateCounter;
+
+	sleep 120;
+	
+	["clearMinefield"] call BIS_fnc_deleteTask;
+
+	{
+		deleteVehicle _x;
+	} forEach _mineList;
+
+	ARES_activeCustomTask = [];
+	publicVariable "ARES_activeCustomTask";
 };
