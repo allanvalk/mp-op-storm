@@ -98,5 +98,5 @@ ARES_showGui = {
 };
 
 ARES_requestMission = {
-	_nil = [] spawn selectRandom [ARES_saveCivilian, ARES_deliverSupplies, ARES_radioTower, ARES_killOfficer, ARES_destroyCache, ARES_destroyAA];
+	_nil = [] spawn selectRandom [ARES_saveCivilian, ARES_deliverSupplies, ARES_radioTower, ARES_killOfficer, ARES_destroyCache, ARES_destroyAA, ARES_clearMinefield];
 };

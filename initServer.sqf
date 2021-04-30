@@ -71,7 +71,7 @@ if ((["autoTask", 0] call BIS_fnc_getParamValue) == 1) then {
 	_nil = [] spawn {
 		sleep 10;
 		while {true} do {
-			_nil = [] spawn selectRandom [ARES_saveCivilian, ARES_deliverSupplies, ARES_radioTower, ARES_killOfficer, ARES_destroyCache, ARES_destroyAA];
+			_nil = [] spawn selectRandom [ARES_saveCivilian, ARES_deliverSupplies, ARES_radioTower, ARES_killOfficer, ARES_destroyCache, ARES_destroyAA, ARES_clearMinefield];
 			sleep 6400;
 		};
 	};
