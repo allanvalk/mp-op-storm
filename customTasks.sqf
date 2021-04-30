@@ -2,7 +2,7 @@ ARES_deliverSupplies = {
 	_spawnPos = [7479.68,1757.85,0];
 	_targetPos = [0,0,0];
 
-	_targetPos = [nil, ["water", "closedArea"]] call BIS_fnc_randomPos;
+	_targetPos = [nil, ["water", "closedArea", "labAreaMarker"]] call BIS_fnc_randomPos;
 	
 	_location = nearestLocation [_targetPos, "CityCenter"];
 	_locationPos = locationPosition _location;
@@ -14,19 +14,12 @@ ARES_deliverSupplies = {
 	
 	[west, ["deliverSupplies"], ["Доставить ящик с гуманитарным грузом для улучшения отношений с местным населением.", "Доставить припасы", ""], getPos _targetObj, 0, -1, true, ""] call BIS_fnc_taskCreate;
 
-	_nil = [_targetObj, _deliverObj] spawn {
-		_targetObj = (_this select 0);
-		_deliverObj = (_this select 1);
-		sleep 6350;
-		["deliverSupplies","FAILED"] call BIS_fnc_taskSetState;
-		sleep 10;
-		["deliverSupplies"] call BIS_fnc_deleteTask;
-		sleep 10;
-		deleteVehicle _targetObj;
-		deleteVehicle _deliverObj;
-	};
+	ARES_activeCustomTask = ["deliverSupplies", [_targetObj, _deliverObj]];
+	publicVariable "ARES_activeCustomTask";
 
 	waitUntil { (_deliverObj distance _targetObj) < 10 };
+
+	if (("deliverSupplies" call BIS_fnc_taskState) == "FAILED") exitWith {};
 
 	["deliverSupplies","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;
@@ -42,7 +35,7 @@ ARES_saveCivilian = {
 	_savePos = getPos ARES_taskPos;
 	_spawnPos = [0,0,0];
 
-	_spawnPos = [nil, ["water", "closedArea"]] call BIS_fnc_randomPos;
+	_spawnPos = [nil, ["water", "closedArea", "labAreaMarker"]] call BIS_fnc_randomPos;
 	
 	_location = nearestLocation [_spawnPos, "CityCenter"];
 	_locationPos = locationPosition _location;
@@ -54,15 +47,8 @@ ARES_saveCivilian = {
 	
 	[west, ["saveCivilian"], ["Захватите гражданского, который передаёт информацию о наших силах противнику.", "Захватить информатора", ""], [_saveObj, false], 0, -1, true, ""] call BIS_fnc_taskCreate;
 
-	_nil = [_saveObj] spawn {
-		_saveObj = (_this select 0);
-		sleep 6350;
-		["saveCivilian","FAILED"] call BIS_fnc_taskSetState;
-		sleep 10;
-		["saveCivilian"] call BIS_fnc_deleteTask;
-		sleep 10;
-		deleteVehicle _saveObj;
-	};
+	ARES_activeCustomTask = ["saveCivilian", [_saveObj]];
+	publicVariable "ARES_activeCustomTask";
 
 	_nil = [_saveObj] spawn {
 		_saveObj = (_this select 0);
@@ -76,6 +62,8 @@ ARES_saveCivilian = {
 
 	waitUntil { (ARES_taskPos distance _saveObj) < 10 };
 
+	if (("saveCivilian" call BIS_fnc_taskState) == "FAILED") exitWith {};
+
 	["saveCivilian","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;
 
@@ -88,7 +76,7 @@ ARES_saveCivilian = {
 ARES_radioTower = {
 	_targetPos = [0,0,0];
 
-	_targetPos = [nil, ["water", "closedArea", "AO_BLUFOR"]] call BIS_fnc_randomPos;
+	_targetPos = [nil, ["water", "closedArea", "AO_BLUFOR", "labAreaMarker"]] call BIS_fnc_randomPos;
 	
 	_location = nearestLocation [_targetPos, "Mount"];
 	_locationPos = locationPosition _location;
@@ -97,17 +85,12 @@ ARES_radioTower = {
 	
 	[west, ["radioTower"], ["Уничтожить вышку, которую войска противника используют для связи и глушения наших каналов связи.", "Уничтожить вышку", ""], ([getPos _targetObj, random 100, random 360] call BIS_fnc_relPos), 0, -1, true, ""] call BIS_fnc_taskCreate;
 
-	_nil = [_targetObj] spawn {
-		_targetObj = (_this select 0);
-		sleep 6350;
-		["radioTower","FAILED"] call BIS_fnc_taskSetState;
-		sleep 10;
-		["radioTower"] call BIS_fnc_deleteTask;
-		sleep 10;
-		deleteVehicle _targetObj;
-	};
+	ARES_activeCustomTask = ["radioTower", [_targetObj]];
+	publicVariable "ARES_activeCustomTask";
 
 	waitUntil { !alive _targetObj };
+
+	if (("radioTower" call BIS_fnc_taskState) == "FAILED") exitWith {};
 
 	["radioTower","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;
@@ -121,7 +104,7 @@ ARES_radioTower = {
 ARES_killOfficer = {
 	_targetPos = [0,0,0];
 
-	_targetPos = [nil, ["water", "closedArea", "AO_BLUFOR"]] call BIS_fnc_randomPos;
+	_targetPos = [nil, ["water", "closedArea", "AO_BLUFOR", "labAreaMarker"]] call BIS_fnc_randomPos;
 	
 	_location = nearestLocation [_targetPos, "NameLocal"];
 	_locationPos = locationPosition _location;
@@ -137,23 +120,12 @@ ARES_killOfficer = {
 	
 	[west, ["killOfficer"], ["Убейте офицера. Он командует местным гарнизоном и осуществляет пропаганду среди местного населения.", "Убить офицера", ""], ([getPos _targetObj, random 50, random 360] call BIS_fnc_relPos), 0, -1, true, ""] call BIS_fnc_taskCreate;
 	
-	_nil = [_targetObj] spawn {
-		_targetObj = (_this select 0);
-		sleep 6350;
-		["killOfficer","FAILED"] call BIS_fnc_taskSetState;
-		sleep 10;
-		["killOfficer"] call BIS_fnc_deleteTask;
-		sleep 10;
-		deleteVehicle _targetObj;
-		{
-			deleteVehicle _x;
-		} forEach units _targetGuard_1;
-		{
-			deleteVehicle _x;
-		} forEach units _targetGuard_2;
-	};
+	ARES_activeCustomTask = ["killOfficer", [_targetObj, _targetGuard_1, _targetGuard_2]];
+	publicVariable "ARES_activeCustomTask";
 
 	waitUntil { !alive _targetObj };
+
+	if (("killOfficer" call BIS_fnc_taskState) == "FAILED") exitWith {};
 
 	["killOfficer","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;
@@ -173,7 +145,7 @@ ARES_killOfficer = {
 ARES_destroyCache = {
 	_targetPos = [0,0,0];
 
-	_targetPos = [nil, ["water", "closedArea", "AO_BLUFOR"]] call BIS_fnc_randomPos;
+	_targetPos = [nil, ["water", "closedArea", "AO_BLUFOR", "labAreaMarker"]] call BIS_fnc_randomPos;
 	
 	_location = nearestLocation [_targetPos, "Mount"];
 	_locationPos = locationPosition _location;
@@ -191,23 +163,12 @@ ARES_destroyCache = {
 	
 	[west, ["destroyCache"], ["Местное ополчение хранит своё вооружение в данном схроне. Взорвите его и ликвидируйте охрану.", "Взорвать схрон", ""], ([getPos _targetObj, random 100, random 360] call BIS_fnc_relPos), 0, -1, true, ""] call BIS_fnc_taskCreate;
 	
-	_nil = [] spawn {
-		sleep 6350;
-		["destroyCache","FAILED"] call BIS_fnc_taskSetState;
-		sleep 10;
-		["destroyCache"] call BIS_fnc_deleteTask;
-		sleep 10;
-		deleteVehicle _targetObj;
-		deleteVehicle _targetCamoObj;
-		{
-			deleteVehicle _x;
-		} forEach units _targetGuard_1;
-		{
-			deleteVehicle _x;
-		} forEach units _targetGuard_2;
-	};
+	ARES_activeCustomTask = ["destroyCache", [_targetObj, _targetGuard_1, _targetGuard_2]];
+	publicVariable "ARES_activeCustomTask";
 
 	waitUntil { !alive _targetObj };
+
+	if (("destroyCache" call BIS_fnc_taskState) == "FAILED") exitWith {};
 
 	["destroyCache","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;
@@ -228,7 +189,7 @@ ARES_destroyCache = {
 ARES_destroyAA = {
 	_targetPos = [0,0,0];
 
-	_targetPos = [nil, ["water", "closedArea", "AO_BLUFOR"]] call BIS_fnc_randomPos;
+	_targetPos = [nil, ["water", "closedArea", "AO_BLUFOR", "labAreaMarker"]] call BIS_fnc_randomPos;
 	
 	_location = nearestLocation [_targetPos, "FlatArea"];
 	_locationPos = locationPosition _location;
@@ -248,23 +209,12 @@ ARES_destroyAA = {
 	
 	[west, ["destroyAA"], ["Найдите и уничтожьте ПВО противника в секторе. ", "Уничтожить ПВО", ""], ([getPos _targetObj, random 100, random 360] call BIS_fnc_relPos), 0, -1, true, ""] call BIS_fnc_taskCreate;
 	
-	_nil = [] spawn {
-		sleep 6350;
-		["destroyAA","FAILED"] call BIS_fnc_taskSetState;
-		sleep 10;
-		["destroyAA"] call BIS_fnc_deleteTask;
-		sleep 10;
-		deleteVehicle _targetObj;
-		deleteVehicle _targetCamoObj;
-		{
-			deleteVehicle _x;
-		} forEach units _targetGuard_1;
-		{
-			deleteVehicle _x;
-		} forEach units _targetGuard_2;
-	};
+	ARES_activeCustomTask = ["destroyAA", [_targetObj, _targetGuard_1, _targetGuard_2]];
+	publicVariable "ARES_activeCustomTask";
 
 	waitUntil { !alive _targetObj };
+
+	if (("destroyAA" call BIS_fnc_taskState) == "FAILED") exitWith {};
 
 	["destroyAA","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;

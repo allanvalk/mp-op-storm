@@ -79,11 +79,11 @@ if ((["autoTask", 0] call BIS_fnc_getParamValue) == 1) then {
 
 _nil = [] spawn {
 	while {true} do {
-		_delete = nearestObjects [mapCenter, ["O_Truck_02_covered_F", "O_Truck_02_transport_F", "O_Truck_02_box_F", "O_Truck_02_medical_F", "O_Truck_02_fuel_F", "O_Truck_02_Ammo_F"], 12000];
+		_delete = nearestObjects [mapCenter, ["O_Truck_02_covered_F", "O_Truck_02_transport_F", "O_Truck_02_box_F", "O_Truck_02_medical_F", "O_Truck_02_fuel_F", "O_Truck_02_Ammo_F", "O_Heli_Attack_02_dynamicLoadout_F", "O_Heli_Transport_04_covered_F", "O_Heli_Transport_04_repair_F", "O_Heli_Transport_04_medevac_F", "O_Heli_Transport_04_fuel_F", "O_Heli_Transport_04_box_F", "O_Heli_Transport_04_bench_F", "O_Heli_Transport_04_ammo_F", "O_Heli_Transport_04_F", "O_Heli_Light_02_unarmed_F", "O_Heli_Light_02_dynamicLoadout_F", "B_Heli_Transport_01_F", "B_Heli_Transport_03_F", "B_Heli_Transport_03_unarmed_F"], 12000];
 		{
 			deleteVehicle _x;
 		} forEach _delete;
-		sleep 60;
+		sleep 30;
 	};
 };
 
