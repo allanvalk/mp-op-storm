@@ -1,3 +1,18 @@
+ARES_radioJammer = {
+	_targetObj = (_this select 0);
+	while {alive _targetObj} do {
+		if (player distance _targetObj < 1000) then {
+			player setVariable ["tf_unable_to_use_radio", true];
+			playSound "Sound_static";
+		} else {
+			player setVariable ["tf_unable_to_use_radio", false];
+		};
+		sleep 10;
+	};
+	player setVariable ["tf_unable_to_use_radio", false];
+	if (true) exitWith {};
+};
+
 ARES_deliverSupplies = {
 	_spawnPos = [7479.68,1757.85,0];
 	_targetPos = [0,0,0];
@@ -93,6 +108,8 @@ ARES_radioTower = {
 
 	ARES_activeCustomTask = ["radioTower", [_targetObj]];
 	publicVariable "ARES_activeCustomTask";
+
+	[_targetObj] remoteExec ["ARES_radioJammer", 0, true];
 
 	waitUntil { !alive _targetObj };
 

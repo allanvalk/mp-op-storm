@@ -49,4 +49,10 @@ class CfgSounds {
 		sound[] = { "numbers.ogg", 0.8, 1};	
 		titles[] = {};
 	};
+	class Sound_static
+	{	
+		name = "static";
+		sound[] = { "static.ogg", 5, 1};	
+		titles[] = {};
+	};
 };
