@@ -4,6 +4,18 @@ _nil = [] execVM "customTasks.sqf";
 ARES_musicList = [["Armored_Cavalry", 217], ["Heat", 157], ["Hindsight", 137], ["Infiltration", 215], ["Jumping_In", 264], ["KIA", 149], ["Main_Menu", 200], ["Main_Theme", 103], ["Multiplayer_Victory_and_Stats", 105], ["On_My_Way", 192], ["On_The_Offensive", 296], ["Run_For_Cover", 106], ["Scythe", 230], ["Search_and_Destroy", 176], ["Suicide_Mission", 171], ["Take_It_Out", 201], ["Temper", 131], ["The_Final_Push", 138], ["Turmoil", 151], ["Undaunted", 133], ["Underground", 184]];
 ARES_activeCustomTask = [];
 
+_nil = [] spawn {
+	waitUntil
+	{
+		if (alive player && cameraView in ["EXTERNAL","GROUP"] && isNull getAssignedCuratorLogic player) then
+		{
+			cameraOn switchCamera "INTERNAL";
+		};
+
+		false
+	};
+};
+
 //ARES_activeCustomTask = ["", []];
 
 [west, "aresDefaultRespawn"] call BIS_fnc_addRespawnInventory;
@@ -12,7 +24,7 @@ ARES_cancelTask = {
 	_taskName = (ARES_activeCustomTask select 0);
 	_objectsDelete = (ARES_activeCustomTask select 1);
 
-	[_taskName,"FAILED"] call BIS_fnc_taskSetState;
+	[_taskName,"CANCELED"] call BIS_fnc_taskSetState;
 	[_taskName] call BIS_fnc_deleteTask;
 	{
 		if ((typeName _x) == "OBJECT") then {
@@ -65,7 +77,7 @@ ARES_updateSupportCounter = {
 };
 
 ARES_playMusic = {
-	1 fadeMusic 0.5;
+	1 fadeMusic 0.25;
 	while {true} do {
 		_musicElement = selectRandom ARES_musicList;
 		_musicName = (_musicElement select 0);

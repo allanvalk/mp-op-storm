@@ -1,28 +1,21 @@
 _nil = [] spawn {
+	sleep 0.1;
 	_action = ["buyMenu","Buy Menu","\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_requestleadership_ca.paa",{[] call ARES_showGui},{(player inArea base) && (player getVariable ["isCommand", false])}] call ace_interact_menu_fnc_createAction;
 	[(typeOf player), 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToClass;
-};
-
-if ((["autoTask", 0] call BIS_fnc_getParamValue) == 0) then {
-	_nil = [] spawn {
+	sleep 0.1;
+	if ((["autoTask", 0] call BIS_fnc_getParamValue) == 0) then {
 		_action = ["requestMission","Request Mission","\a3\ui_f_orange\Data\CfgOrange\Missions\action_nato_ca.paa",{[] call ARES_requestMission},{(player getVariable ["isCommand", false]) && (count ARES_activeCustomTask == 0)}] call ace_interact_menu_fnc_createAction;
 		[(typeOf player), 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToClass;
 	};
-};
-
-if ((["autoTask", 0] call BIS_fnc_getParamValue) == 0) then {
-	_nil = [] spawn {
+	sleep 0.1;
+	if ((["autoTask", 0] call BIS_fnc_getParamValue) == 0) then {
 		_action = ["cancelMission","Cancel Mission","\a3\ui_f_orange\Data\CfgOrange\Missions\action_nato_ca.paa",{[] call ARES_cancelTask},{(player getVariable ["isCommand", false]) && (count ARES_activeCustomTask != 0)}] call ace_interact_menu_fnc_createAction;
 		[(typeOf player), 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToClass;
 	};
-};
-
-_nil = [] spawn {
+	sleep 0.1;
 	_action = ["saveMission","Save Mission","\a3\ui_f_oldman\data\IGUI\Cfg\holdactions\holdAction_sleep_ca.paa",{remoteExec ['ARES_saveMission', 2]},{(serverCommandAvailable "#lock")}] call ace_interact_menu_fnc_createAction;
 	[(typeOf player), 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToClass;
-};
-
-_nil = [] spawn {
+	sleep 0.1;
 	_action = ["loadMission","Load Mission","\a3\ui_f_oldman\data\IGUI\Cfg\holdactions\holdAction_sleep_ca.paa",{remoteExec ['ARES_loadMission', 2]},{(serverCommandAvailable "#lock")}] call ace_interact_menu_fnc_createAction;
 	[(typeOf player), 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToClass;
 };
@@ -40,7 +33,7 @@ _nil = [] spawn {
 };
 
 _nil = [] spawn {
-	sleep 3;
+	sleep 5;
 	if (isNil "TFAR_fnc_isTeamSpeakPluginEnabled") exitwith {
 		999999 cutText ["Task Force Radio is not running on your computer. Please re-sync and retry","BLACK FADED"];
 		999999 cutFadeOut 99999999;
