@@ -5,7 +5,7 @@ enableSentences false;
 enableRadio false;
 
 ARES_saveMission = {
-	"Save started..." remoteExec ["hint"];
+	"[ ~ ] Save started..." remoteExec ["systemChat"];
 	profileNamespace setVariable ["ARES_resourceCounterSave", resourceCounterVar];
 	profileNamespace setVariable ["ARES_supportCounterSave", resourceCounterVar];
 	_savedVehicles = [];
@@ -17,18 +17,31 @@ ARES_saveMission = {
 			_status = damage _x;
 			_rotationDir = vectorDir _x;
 			_rotationUp = vectorUp _x;
+			_cargoItem = getItemCargo _x;
+			_cargoWeapon = getWeaponCargo _x;
+			_cargoMagazine = getMagazineCargo _x;
+			_cargo = [[], []];
+			
+			(_cargo select 0) append (_cargoItem select 0);
+			(_cargo select 0) append (_cargoWeapon select 0);
+			(_cargo select 0) append (_cargoMagazine select 0);
+			(_cargo select 1) append (_cargoItem select 1);
+			(_cargo select 1) append (_cargoWeapon select 1);
+			(_cargo select 1) append (_cargoMagazine select 1);
 
-			_vehicleData = [[_className, _postion, _status, _rotationDir, _rotationUp]];
+			_vehicleData = [[_className, _postion, _status, _rotationDir, _rotationUp, _cargo]];
+			(str _vehicleData) remoteExec ["systemChat"];
 			_savedVehicles append _vehicleData;
+			sleep 0.01;
 		};
 
 	} forEach allMissionObjects "all";
 	profileNamespace setVariable ["ARES_savedVehicles", _savedVehicles];
-	"Mission saved" remoteExec ["hint"];
+	"[ * ] Mission saved" remoteExec ["systemChat"];
 };
 
 ARES_loadMission = {
-	"Load started..." remoteExec ["hint"];
+	"[ ~ ] Load started..." remoteExec ["systemChat"];
 	["resourceCounter", (profileNamespace getVariable ["ARES_resourceCounterSave", 0])] call ARES_updateCounter;
 	["supportCounter", (profileNamespace getVariable ["ARES_supportCounterSave", 0])] call ARES_updateSupportCounter;
 
@@ -41,18 +54,31 @@ ARES_loadMission = {
 		_status = (_x select 2);
 		_rotationDir = (_x select 3);
 		_rotationUp = (_x select 4);
+		_cargo = (_x select 5);
 
+		_vehicleData = [_className, _postion, _status, _rotationDir, _rotationUp, _cargo];
+		(str _vehicleData) remoteExec ["systemChat"];
+		
 		_vehicle = createVehicle [_className, _postion, [], 0, "CAN_COLLIDE"];
 		sleep 0.05;
 		_vehicle enableSimulationGlobal false;
 		_vehicle setDamage _status;
 		_vehicle setVariable ["ARES_vehicleToSave", true, true];
 		_vehicle setVectorDirAndUp [_rotationDir, _rotationUp];
+		clearWeaponCargoGlobal _vehicle;
+		clearMagazineCargoGlobal _vehicle;
+		clearItemCargoGlobal _vehicle;
+		_cargoLength = count (_cargo select 0);
+		for [{_i = 0}, {_i < _cargoLength}, {_i = _i + 1}] do {
+			_cargoNameList = (_cargo select 0);
+			_cargoCountList = (_cargo select 1);
+			_vehicle addItemCargoGlobal [(_cargoNameList select _i), (_cargoCountList select _i)];
+		}; 
 		sleep 0.1;
 		_vehicle enableSimulationGlobal true;
 
 	} forEach _savedVehicles;
-	"Mission loaded" remoteExec ["hint"];
+	"[ * ] Mission loaded" remoteExec ["systemChat"];
 };
 
 _nil = [] spawn {
