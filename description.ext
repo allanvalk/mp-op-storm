@@ -11,7 +11,7 @@ class CfgRespawnInventory
 		weapons[] = {"Throw","Put"};
 		magazines[] = {};
 		items[] = {};
-		linkedItems[] = {"rhsusf_spc","rhsusf_mich_helmet_marpatwd_norotos","","ItemMap","ItemCompass","ItemWatch","TFAR_anprc152","ItemGPS","","","","","","","",""};
+		linkedItems[] = {"rhsusf_spc","rhsusf_mich_helmet_marpatwd_norotos","","ItemMap","ItemCompass","ItemWatch","TFAR_anprc152","","","","","","","","",""};
 	};
 };
 
