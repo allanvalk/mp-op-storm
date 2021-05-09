@@ -1,9 +1,6 @@
 _curator = allcurators select 0;
 _curators = allcurators;
 
-enableSentences false;
-enableRadio false;
-
 ARES_saveMission = {
 	"[ ~ ] Save started..." remoteExec ["systemChat"];
 	profileNamespace setVariable ["ARES_resourceCounterSave", resourceCounterVar];

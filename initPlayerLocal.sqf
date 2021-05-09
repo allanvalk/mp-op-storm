@@ -4,12 +4,12 @@ _nil = [] spawn {
 	[(typeOf player), 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToClass;
 	sleep 0.1;
 	if ((["autoTask", 0] call BIS_fnc_getParamValue) == 0) then {
-		_action = ["requestMission","Request Mission","\a3\ui_f_orange\Data\CfgOrange\Missions\action_nato_ca.paa",{[] call ARES_requestMission},{(player getVariable ["isCommand", false]) && (count ARES_activeCustomTask == 0)}] call ace_interact_menu_fnc_createAction;
+		_action = ["requestMission","Request Mission","\a3\ui_f_orange\Data\CfgOrange\Missions\action_nato_ca.paa",{remoteExecCall ["ARES_requestMission", 2]},{(player getVariable ["isCommand", false]) && (count ARES_activeCustomTask == 0)}] call ace_interact_menu_fnc_createAction;
 		[(typeOf player), 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToClass;
 	};
 	sleep 0.1;
 	if ((["autoTask", 0] call BIS_fnc_getParamValue) == 0) then {
-		_action = ["cancelMission","Cancel Mission","\a3\ui_f_orange\Data\CfgOrange\Missions\action_nato_ca.paa",{[] call ARES_cancelTask},{(player getVariable ["isCommand", false]) && (count ARES_activeCustomTask != 0)}] call ace_interact_menu_fnc_createAction;
+		_action = ["cancelMission","Cancel Mission","\a3\ui_f_orange\Data\CfgOrange\Missions\action_nato_ca.paa",{remoteExecCall ["ARES_cancelTask", 2]},{(player getVariable ["isCommand", false]) && (count ARES_activeCustomTask != 0)}] call ace_interact_menu_fnc_createAction;
 		[(typeOf player), 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToClass;
 	};
 	sleep 0.1;
