@@ -27,7 +27,8 @@ ARES_deliverSupplies = {
 	_deliverObj = createVehicle ["CargoNet_01_box_F", _spawnPos];
 	_deliverObj allowDamage false;
 	
-	[west, ["deliverSupplies"], ["Доставить ящик с гуманитарным грузом для улучшения отношений с местным населением.", "Доставить припасы", ""], getPos _targetObj, 0, -1, true, ""] call BIS_fnc_taskCreate;
+	//[west, ["deliverSupplies"], ["Доставить ящик с гуманитарным грузом для улучшения отношений с местным населением.", "Доставить припасы", ""], getPos _targetObj, 0, -1, true, ""] call BIS_fnc_taskCreate;
+	["deliverSupplies", true, ["Доставить ящик с гуманитарным грузом для улучшения отношений с местным населением.","Доставить припасы",""], getPos _targetObj, "CREATED", -1, true, true, "", true] call BIS_fnc_setTask;
 
 	ARES_activeCustomTask = ["deliverSupplies", [_targetObj, _deliverObj]];
 	publicVariable "ARES_activeCustomTask";
@@ -63,7 +64,8 @@ ARES_saveCivilian = {
 	_saveObj setCaptive true;
 	[_saveGrp, getPos _saveObj, 50] call BIS_fnc_taskPatrol;
 	
-	[west, ["saveCivilian"], ["Захватите гражданского, который передаёт информацию о наших силах противнику.", "Захватить информатора", ""], [_saveObj, false], 0, -1, true, ""] call BIS_fnc_taskCreate;
+	//[west, ["saveCivilian"], ["Захватите гражданского, который передаёт информацию о наших силах противнику.", "Захватить информатора", ""], [_saveObj, false], 0, -1, true, ""] call BIS_fnc_taskCreate;
+	["saveCivilian", true, ["Захватите гражданского, который передаёт информацию о наших силах противнику.","Захватить информатора",""], [_saveObj, false], "CREATED", -1, true, true, "", true] call BIS_fnc_setTask;
 
 	ARES_activeCustomTask = ["saveCivilian", [_saveObj]];
 	publicVariable "ARES_activeCustomTask";
@@ -105,7 +107,8 @@ ARES_radioTower = {
 	_targetObj = createVehicle ["Land_Vysilac_FM", _locationPos];
 	_targetObj setVehiclePosition [getPos _targetObj, [], 0, "CAN_COLLIDE"];
 	
-	[west, ["radioTower"], ["Уничтожить вышку, которую войска противника используют для связи и глушения наших каналов связи.", "Уничтожить вышку", ""], ([getPos _targetObj, random 100, random 360] call BIS_fnc_relPos), 0, -1, true, ""] call BIS_fnc_taskCreate;
+	//[west, ["radioTower"], ["Уничтожить вышку, которую войска противника используют для связи и глушения наших каналов связи.", "Уничтожить вышку", ""], ([getPos _targetObj, random 100, random 360] call BIS_fnc_relPos), 0, -1, true, ""] call BIS_fnc_taskCreate;
+	["radioTower", true, ["Уничтожить вышку, которую войска противника используют для связи и глушения наших каналов связи.","Уничтожить вышку",""], ([getPos _targetObj, random 100, random 360] call BIS_fnc_relPos), "CREATED", -1, true, true, "", true] call BIS_fnc_setTask;
 
 	ARES_activeCustomTask = ["radioTower", [_targetObj]];
 	publicVariable "ARES_activeCustomTask";
@@ -145,8 +148,9 @@ ARES_killOfficer = {
 	_targetGuard_2 = [getPos _targetObj, east, (configfile >> "CfgGroups" >> "East" >> "UK3CB_TKA_O" >> "Infantry" >> "UK3CB_TKA_O_RIF_FireTeam")] call BIS_fnc_spawnGroup;
 	[_targetGuard_2, getPos _targetObj, 200] call BIS_fnc_taskPatrol;
 	
-	[west, ["killOfficer"], ["Убейте офицера. Он командует местным гарнизоном и осуществляет пропаганду среди местного населения.", "Убить офицера", ""], ([getPos _targetObj, random 50, random 360] call BIS_fnc_relPos), 0, -1, true, ""] call BIS_fnc_taskCreate;
-	
+	//[west, ["killOfficer"], ["Убейте офицера. Он командует местным гарнизоном и осуществляет пропаганду среди местного населения.", "Убить офицера", ""], ([getPos _targetObj, random 50, random 360] call BIS_fnc_relPos), 0, -1, true, ""] call BIS_fnc_taskCreate;
+	["killOfficer", true, ["Убейте офицера. Он командует местным гарнизоном и осуществляет пропаганду среди местного населения.","Убить офицера",""], ([getPos _targetObj, random 50, random 360] call BIS_fnc_relPos), "CREATED", -1, true, true, "", true] call BIS_fnc_setTask;
+
 	ARES_activeCustomTask = ["killOfficer", [_targetObj, _targetGuard_1, _targetGuard_2]];
 	publicVariable "ARES_activeCustomTask";
 
@@ -191,8 +195,9 @@ ARES_destroyCache = {
 	_targetGuard_2 = [getPos _targetObj, east, (configfile >> "CfgGroups" >> "East" >> "UK3CB_TKM_O" >> "Infantry" >> "UK3CB_TKM_O_RIF_FireTeam")] call BIS_fnc_spawnGroup;
 	[_targetGuard_2, getPos _targetObj, 200] call BIS_fnc_taskPatrol;
 	
-	[west, ["destroyCache"], ["Местное ополчение хранит своё вооружение в данном схроне. Взорвите его и ликвидируйте охрану.", "Взорвать схрон", ""], ([getPos _targetObj, random 100, random 360] call BIS_fnc_relPos), 0, -1, true, ""] call BIS_fnc_taskCreate;
-	
+	//[west, ["destroyCache"], ["Местное ополчение хранит своё вооружение в данном схроне. Взорвите его и ликвидируйте охрану.", "Взорвать схрон", ""], ([getPos _targetObj, random 100, random 360] call BIS_fnc_relPos), 0, -1, true, ""] call BIS_fnc_taskCreate;
+	["destroyCache", true, ["Местное ополчение хранит своё вооружение в данном схроне. Взорвите его и ликвидируйте охрану.","Взорвать схрон",""], ([getPos _targetObj, random 100, random 360] call BIS_fnc_relPos), "CREATED", -1, true, true, "", true] call BIS_fnc_setTask;
+
 	ARES_activeCustomTask = ["destroyCache", [_targetObj, _targetGuard_1, _targetGuard_2]];
 	publicVariable "ARES_activeCustomTask";
 
@@ -240,8 +245,9 @@ ARES_destroyAA = {
 	_targetGuard_2 = [getPos _targetObj, east, (configfile >> "CfgGroups" >> "East" >> "UK3CB_TKA_O" >> "Infantry" >> "UK3CB_TKA_O_RIF_FireTeam")] call BIS_fnc_spawnGroup;
 	[_targetGuard_2, getPos _targetObj, 200] call BIS_fnc_taskPatrol;
 	
-	[west, ["destroyAA"], ["Найдите и уничтожьте ПВО противника в секторе. ", "Уничтожить ПВО", ""], ([getPos _targetObj, random 100, random 360] call BIS_fnc_relPos), 0, -1, true, ""] call BIS_fnc_taskCreate;
-	
+	//[west, ["destroyAA"], ["Найдите и уничтожьте ПВО противника в секторе.", "Уничтожить ПВО", ""], ([getPos _targetObj, random 100, random 360] call BIS_fnc_relPos), 0, -1, true, ""] call BIS_fnc_taskCreate;
+	["destroyAA", true, ["Найдите и уничтожьте ПВО противника в секторе.","Уничтожить ПВО",""], ([getPos _targetObj, random 100, random 360] call BIS_fnc_relPos), "CREATED", -1, true, true, "", true] call BIS_fnc_setTask;
+
 	ARES_activeCustomTask = ["destroyAA", [_targetObj, _targetGuard_1, _targetGuard_2]];
 	publicVariable "ARES_activeCustomTask";
 
@@ -281,7 +287,8 @@ ARES_clearMinefield = {
 		_mineList append [_mine];
 	};
 
-	[west, ["clearMinefield"], ["Расчистите местность от мин, чтобы избежать жертв среди местного населения.", "Минное поле", ""], _targetPos, 0, -1, true, ""] call BIS_fnc_taskCreate;
+	//[west, ["clearMinefield"], ["Расчистите местность от мин, чтобы избежать жертв среди местного населения.", "Минное поле", ""], _targetPos, 0, -1, true, ""] call BIS_fnc_taskCreate;
+	["clearMinefield", true, ["Расчистите местность от мин, чтобы избежать жертв среди местного населения.","Минное поле",""], _targetPos, "CREATED", -1, true, true, "", true] call BIS_fnc_setTask;
 
 	ARES_activeCustomTask = ["clearMinefield", [_mineList]];
 	publicVariable "ARES_activeCustomTask";

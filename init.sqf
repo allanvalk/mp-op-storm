@@ -113,6 +113,7 @@ ARES_showGui = {
 };
 
 ARES_requestMission = {
+	remoteExecCall ["ARES_cancelTask", 2];
 	_nil = [] spawn selectRandom [ARES_saveCivilian, ARES_deliverSupplies, ARES_radioTower, ARES_killOfficer, ARES_destroyCache, ARES_destroyAA, ARES_clearMinefield];
 };
 /* Obsolete since 10/5/2021
