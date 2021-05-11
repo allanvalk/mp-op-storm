@@ -115,3 +115,63 @@ ARES_showGui = {
 ARES_requestMission = {
 	_nil = [] spawn selectRandom [ARES_saveCivilian, ARES_deliverSupplies, ARES_radioTower, ARES_killOfficer, ARES_destroyCache, ARES_destroyAA, ARES_clearMinefield];
 };
+/* Obsolete since 10/5/2021
+ARES_playMessage = {
+	[terminal,3] call BIS_fnc_dataTerminalAnimate;
+	sleep 3;
+	terminal say3D "Sound_message";
+	terminal setObjectTexture [0,"eye.jpg"];
+	screen1 setObjectTexture [0,"eye.jpg"]; 
+	screen2 setObjectTexture [0,"eye.jpg"]; 
+	sleep 45;
+	_nil = [] spawn {
+		while {alive speakerBase} do {
+			speakerBase say3D ["Sound_alarm", 1000];
+			sleep 2;
+		};
+	};
+	bomb1a setDamage 1;
+};
+
+ARES_playSaved = {
+	sleep 1;
+	computer say3D "Sound_saved_data";
+	sleep 30;
+	[terminal,1] call BIS_fnc_dataTerminalAnimate;
+	[
+		terminal,											// Object the action is attached to
+		"Установить связь",										// Title of the action
+		"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
+		"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
+		"_this distance _target < 3",						// Condition for the action to be shown
+		"_caller distance _target < 3",						// Condition for the action to progress
+		{},													// Code executed when action starts
+		{},													// Code executed on every progress tick
+		{ remoteExec ["ARES_playMessage"] },													// Code executed on completion
+		{},													// Code executed on interrupted
+		[],													// Arguments passed to the scripts as _this select 3
+		5,													// Action duration [s]
+		5,													// Priority
+		true,												// Remove on completion
+		false												// Show in unconscious state
+	] remoteExec ["BIS_fnc_holdActionAdd", 0, terminal];	// MP compatible implementation
+};
+
+[
+	computer,											// Object the action is attached to
+	"Проиграть запись",										// Title of the action
+	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Idle icon shown on screen
+	"\a3\ui_f\data\IGUI\Cfg\holdactions\holdAction_connect_ca.paa",	// Progress icon shown on screen
+	"_this distance _target < 3",						// Condition for the action to be shown
+	"_caller distance _target < 3",						// Condition for the action to progress
+	{},													// Code executed when action starts
+	{},													// Code executed on every progress tick
+	{ remoteExec ["ARES_playSaved"] },													// Code executed on completion
+	{},													// Code executed on interrupted
+	[],													// Arguments passed to the scripts as _this select 3
+	5,													// Action duration [s]
+	5,													// Priority
+	true,												// Remove on completion
+	false												// Show in unconscious state
+] remoteExec ["BIS_fnc_holdActionAdd", 0, computer];	// MP compatible implementation
+*/

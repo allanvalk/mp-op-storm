@@ -55,4 +55,28 @@ class CfgSounds {
 		sound[] = { "static.ogg", 5, 1};	
 		titles[] = {};
 	};
+	class Sound_message
+	{	
+		name = "message";
+		sound[] = { "message.ogg", 1, 1};	
+		titles[] = {};
+	};
+	class Sound_saved_data
+	{	
+		name = "saved_data";
+		sound[] = { "saved_data.ogg", 1, 1};	
+		titles[] = {};
+	};
+	class Sound_alarm
+	{	
+		name = "alarm";
+		sound[] = { "alarm.ogg", 5, 1};	
+		titles[] = {};
+	};
+	class Sound_loud_alarm
+	{	
+		name = "loud_alarm";
+		sound[] = { "loud_alarm.ogg", 5, 1};	
+		titles[] = {};
+	};
 };
