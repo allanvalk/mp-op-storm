@@ -39,6 +39,8 @@ ARES_deliverSupplies = {
 
 	["deliverSupplies","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;
+	sleep 1;
+	["deliverSupplies","CREATED"] call BIS_fnc_taskSetState;
 	sleep 0.1;
 	["deliverSupplies"] call BIS_fnc_deleteTask;
 	ARES_activeCustomTask = [];
@@ -86,6 +88,8 @@ ARES_saveCivilian = {
 
 	["saveCivilian","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;
+	sleep 1;
+	["saveCivilian","CREATED"] call BIS_fnc_taskSetState;
 	sleep 0.1;
 	["saveCivilian"] call BIS_fnc_deleteTask;
 	ARES_activeCustomTask = [];
@@ -100,7 +104,7 @@ ARES_saveCivilian = {
 ARES_radioTower = {
 	_targetPos = [0,0,0];
 
-	_targetPos = [nil, ["water", "closedArea", "AO_BLUFOR", "labAreaMarker"]] call BIS_fnc_randomPos;
+	_targetPos = [["AO_OPFOR"], ["water", "closedArea", "AO_BLUFOR", "labAreaMarker"]] call BIS_fnc_randomPos;
 	
 	_location = nearestLocation [_targetPos, "Mount"];
 	_locationPos = locationPosition _location;
@@ -121,6 +125,8 @@ ARES_radioTower = {
 
 	["radioTower","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;
+	sleep 1;
+	["radioTower","CREATED"] call BIS_fnc_taskSetState;
 	sleep 0.1;
 	["radioTower"] call BIS_fnc_deleteTask;
 	ARES_activeCustomTask = [];
@@ -134,7 +140,7 @@ ARES_radioTower = {
 ARES_killOfficer = {
 	_targetPos = [0,0,0];
 
-	_targetPos = [nil, ["water", "closedArea", "AO_BLUFOR", "labAreaMarker"]] call BIS_fnc_randomPos;
+	_targetPos = [["AO_OPFOR"], ["water", "closedArea", "AO_BLUFOR", "labAreaMarker"]] call BIS_fnc_randomPos;
 	
 	_location = nearestLocation [_targetPos, "NameLocal"];
 	_locationPos = locationPosition _location;
@@ -160,6 +166,8 @@ ARES_killOfficer = {
 
 	["killOfficer","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;
+	sleep 1;
+	["killOfficer","CREATED"] call BIS_fnc_taskSetState;
 	sleep 0.1;
 	["killOfficer"] call BIS_fnc_deleteTask;
 	ARES_activeCustomTask = [];
@@ -207,6 +215,8 @@ ARES_destroyCache = {
 
 	["destroyCache","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;
+	sleep 1;
+	["destroyCache","CREATED"] call BIS_fnc_taskSetState;
 	sleep 0.1;
 	["destroyCache"] call BIS_fnc_deleteTask;
 	ARES_activeCustomTask = [];
@@ -227,7 +237,7 @@ ARES_destroyCache = {
 ARES_destroyAA = {
 	_targetPos = [0,0,0];
 
-	_targetPos = [nil, ["water", "closedArea", "AO_BLUFOR", "labAreaMarker"]] call BIS_fnc_randomPos;
+	_targetPos = [["AO_OPFOR"], ["water", "closedArea", "AO_BLUFOR", "labAreaMarker"]] call BIS_fnc_randomPos;
 	
 	_location = nearestLocation [_targetPos, "FlatArea"];
 	_locationPos = locationPosition _location;
@@ -257,6 +267,8 @@ ARES_destroyAA = {
 
 	["destroyAA","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;
+	sleep 1;
+	["destroyAA","CREATED"] call BIS_fnc_taskSetState;
 	sleep 0.1;
 	["destroyAA"] call BIS_fnc_deleteTask;
 	ARES_activeCustomTask = [];
@@ -299,6 +311,8 @@ ARES_clearMinefield = {
 
 	["clearMinefield","SUCCEEDED"] call BIS_fnc_taskSetState;
 	["resourceCounter", 5] call ARES_updateCounter;
+	sleep 1;
+	["clearMinefield","CREATED"] call BIS_fnc_taskSetState;
 	sleep 0.1;
 	["clearMinefield"] call BIS_fnc_deleteTask;
 	ARES_activeCustomTask = [];

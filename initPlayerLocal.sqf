@@ -34,6 +34,17 @@ _nil = [] spawn {
 
 _nil = [] spawn {
 	sleep 5;
+	"Добро пожаловать на сервер Ares Wargame!" hintC [
+		"Ожесточённые столкновения в напряжённой борьбе за территорию.",
+		"Доступ почти ко всем имеющимся видам экипировки и техники.",
+		"Обилие уникальных дополнительных игровых возможностей и задач.",
+		"Расширенный привычный PvE и PvP геймплей ArmA III.",
+		"https://vk.com/ares_wargame"
+	];
+};
+
+_nil = [] spawn {
+	sleep 5;
 	if (isNil "TFAR_fnc_isTeamSpeakPluginEnabled") exitwith {
 		999999 cutText ["Task Force Radio is not running on your computer. Please re-sync and retry","BLACK FADED"];
 		999999 cutFadeOut 99999999;

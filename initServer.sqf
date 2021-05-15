@@ -90,6 +90,13 @@ _nil = [] spawn {
 	};
 };
 
+_nil = [] spawn {
+	while {true} do {
+		publicVariable "ARES_activeCustomTask";
+		sleep 30;
+	};
+};
+
 if ((["autoTask", 0] call BIS_fnc_getParamValue) == 1) then {
 	_nil = [] spawn {
 		sleep 10;
