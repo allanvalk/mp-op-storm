@@ -70,10 +70,12 @@ ARES_loadMission = {
 			_cargoNameList = (_cargo select 0);
 			_cargoCountList = (_cargo select 1);
 			_vehicle addItemCargoGlobal [(_cargoNameList select _i), (_cargoCountList select _i)];
-		}; 
+		};
 		sleep 0.1;
 		_vehicle enableSimulationGlobal true;
-
+		if (_status == 1) then {
+			deleteVehicle _vehicle;
+		};
 	} forEach _savedVehicles;
 	"[ * ] Mission loaded" remoteExec ["systemChat"];
 };
