@@ -34,3 +34,17 @@ _nil = [] spawn {
 
 
 [objNull, player] call ace_medical_treatment_fnc_fullHeal;
+
+_cargoItem = getItemCargo crate1;
+_cargoWeapon = getWeaponCargo crate1;
+_cargoMagazine = getMagazineCargo crate1;
+_cargo = [[], []];
+			
+(_cargo select 0) append (_cargoItem select 0);
+(_cargo select 0) append (_cargoWeapon select 0);
+(_cargo select 0) append (_cargoMagazine select 0);
+(_cargo select 1) append (_cargoItem select 1);
+(_cargo select 1) append (_cargoWeapon select 1);
+(_cargo select 1) append (_cargoMagazine select 1);
+
+copyToClipboard str _cargo;

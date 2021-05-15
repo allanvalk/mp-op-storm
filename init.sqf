@@ -107,6 +107,34 @@ ARES_buyEntity = {
 	_vehicle setVariable ["ARES_vehicleToSave", true, true];
 };
 
+ARES_buyCrate = {
+	// ['Box_Syndicate_Ammo_F', 5, [['SMG_02_F','UK3CB_SVD_OLD','hlc_rifle_ACR68_full_black_grip','hgun_ACPC2_F','rhs_weap_6p53','30Rnd_556x45_Stanag_Tracer_Red'],[5,5,10,5,5,30]]] call ARES_buyCrate;
+	_entity = (_this select 0);
+	_cost = (_this select 1);
+	_cargo = (_this select 2);
+	_spawnPos = [7482.96,1717.07,0];
+
+	if (_cost > resourceCounterVar) exitWith {
+		hint "Недостаточно ресурсов!";
+	};
+
+	["resourceCounter", -(_cost)] call ARES_updateCounter;
+
+	_vehicle = _entity createVehicle _spawnPos;
+	_vehicle setVariable ["ARES_vehicleToSave", true, true];
+
+	clearWeaponCargoGlobal _vehicle;
+	clearMagazineCargoGlobal _vehicle;
+	clearItemCargoGlobal _vehicle;
+
+	_cargoLength = count (_cargo select 0);
+	for [{_i = 0}, {_i < _cargoLength}, {_i = _i + 1}] do {
+		_cargoNameList = (_cargo select 0);
+		_cargoCountList = (_cargo select 1);
+		_vehicle addItemCargoGlobal [(_cargoNameList select _i), (_cargoCountList select _i)];
+	};
+};
+
 ARES_showGui = {
 	disableSerialization;
 	createDialog "ARES_BuyMenu_Dialog";
