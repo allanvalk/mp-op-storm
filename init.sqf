@@ -27,7 +27,6 @@ ARES_cancelTask = {
 	_taskName = (ARES_activeCustomTask select 0);
 	_objectsDelete = (ARES_activeCustomTask select 1);
 
-	[_taskName,"CANCELED"] call BIS_fnc_taskSetState;
 	[_taskName] call BIS_fnc_deleteTask;
 	{
 		if ((typeName _x) == "OBJECT") then {
