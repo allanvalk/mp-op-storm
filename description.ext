@@ -79,4 +79,22 @@ class CfgSounds {
 		sound[] = { "loud_alarm.ogg", 5, 1};	
 		titles[] = {};
 	};
+	class Sound_production
+	{	
+		name = "production";
+		sound[] = { "production.ogg", 5, 1};	
+		titles[] = {};
+	};
+	class Sound_comp_turrets
+	{	
+		name = "comp_turrets";
+		sound[] = { "comp_turrets.ogg", 5, 1};	
+		titles[] = {};
+	};
+	class Sound_comp_turrets_shutdown
+	{	
+		name = "comp_turrets_shutdown";
+		sound[] = { "comp_turrets_shutdown.ogg", 5, 1};	
+		titles[] = {};
+	};
 };

@@ -13,6 +13,28 @@ ARES_radioJammer = {
 	if (true) exitWith {};
 };
 
+ARES_chaosJammer = {
+	_targetObj = (_this select 0);
+	while {alive _targetObj} do {
+		if (player distance _targetObj < 3000) then {
+			player setVariable ["tf_unable_to_use_radio", true];
+			playSound "Sound_static";
+			if (!(isNull objectParent player)) then {
+				vehicle player setHitPointDamage ["hitavionics", ((vehicle player getHitPointDamage "hitavionics") + 0.1), false];
+				vehicle player setHitPointDamage ["hitengine", ((vehicle player getHitPointDamage "hitengine") + 0.1), false];
+				vehicle player setHitPointDamage ["hitmissiles", ((vehicle player getHitPointDamage "hitmissiles") + 0.1), false];
+				vehicle player setHitPointDamage ["hithrotor", ((vehicle player getHitPointDamage "hithrotor") + 0.1), false];
+				vehicle player setHitPointDamage ["hitvrotor", ((vehicle player getHitPointDamage "hitvrotor") + 0.1), false];
+			};
+		} else {
+			player setVariable ["tf_unable_to_use_radio", false];
+		};
+		sleep 10;
+	};
+	player setVariable ["tf_unable_to_use_radio", false];
+	if (true) exitWith {};
+};
+
 ARES_deliverSupplies = {
 	_spawnPos = [7479.68,1757.85,0];
 	_targetPos = [0,0,0];

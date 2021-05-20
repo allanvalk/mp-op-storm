@@ -6,6 +6,7 @@ enableRadio false;
 
 ARES_musicList = [["Armored_Cavalry", 217], ["Heat", 157], ["Hindsight", 137], ["Infiltration", 215], ["Jumping_In", 264], ["KIA", 149], ["Main_Menu", 200], ["Main_Theme", 103], ["Multiplayer_Victory_and_Stats", 105], ["On_My_Way", 192], ["On_The_Offensive", 296], ["Run_For_Cover", 106], ["Scythe", 230], ["Search_and_Destroy", 176], ["Suicide_Mission", 171], ["Take_It_Out", 201], ["Temper", 131], ["The_Final_Push", 138], ["Turmoil", 151], ["Undaunted", 133], ["Underground", 184]];
 ARES_activeCustomTask = [];
+ARES_buildActions = [];
 
 _nil = [] spawn {
 	waitUntil
@@ -104,6 +105,10 @@ ARES_buyEntity = {
 
 	_vehicle = _entity createVehicle _spawnPos;
 	_vehicle setVariable ["ARES_vehicleToSave", true, true];
+
+	clearWeaponCargoGlobal _vehicle;
+	clearMagazineCargoGlobal _vehicle;
+	clearItemCargoGlobal _vehicle;
 };
 
 ARES_buyCrate = {
@@ -134,9 +139,68 @@ ARES_buyCrate = {
 	};
 };
 
+ARES_build = {
+	// ['Land_BagFence_Long_F', 1, player] call ARES_build;
+	_entity = (_this select 0);
+	_cost = (_this select 1);
+	_unit = (_this select 2);
+
+	if (count ARES_buildActions != 0) then {
+		{
+			_unit removeAction _x;
+		} forEach ARES_buildActions;
+	};
+
+	_object = _entity createVehicle [0,0,0];
+	[_unit, _object, [0, 7, 0.5], 90] call BIS_fnc_relPosObject;
+	_object attachTo [player, [0, 7, 0.5]];
+	_object enableSimulationGlobal true;
+	_unit enableSimulationGlobal true;
+	_buildAction = _unit addAction ["Build", { [(_this select 3 select 0), (_this select 3 select 1), (_this select 3 select 2)] call ARES_buildPlace; }, [_object, _cost, _unit], 1, true, true, "", "true", 1, false, "", ""];
+	_cancelAction = _unit addAction ["Cancel", { [(_this select 3 select 0), (_this select 3 select 1), (_this select 3 select 2)] call ARES_buildCancel; }, [_object, _cost, _unit], 1, true, true, "", "true", 1, false, "", ""];
+	_upAction = _unit addAction ["Up", { _object = (_this select 3 select 0); detach _object; _pos = getPos _object; _object setPos (getPos _object vectorAdd [0,0,0.25]); _object attachTo [player]; }, [_object, _cost, _unit], 1, true, true, "", "true", 1, false, "", ""];
+	_downAction = _unit addAction ["Down", { _object = (_this select 3 select 0); detach _object; _pos = getPos _object; _object setPos (getPos _object vectorAdd [0,0,-0.25]); _object attachTo [player]; }, [_object, _cost, _unit], 1, true, true, "", "true", 1, false, "", ""];
+	ARES_buildActions = [_buildAction, _cancelAction, _upAction, _downAction];
+};
+
+ARES_buildPlace = {
+	_object = (_this select 0);
+	_cost = (_this select 1);
+	_unit = (_this select 2);
+	
+	if (_cost > resourceCounterVar) exitWith {
+		hint "Недостаточно ресурсов!";
+	};
+
+	{
+		_unit removeAction _x;
+	} forEach ARES_buildActions;
+
+	["resourceCounter", -(_cost)] call ARES_updateCounter;
+	detach _object;
+	_object addAction ["Delete", { deleteVehicle (_this select 3 select 0) }, [_object, _cost, _unit], -1, false, true, "", "true", 5, false, "", ""];
+};
+
+ARES_buildCancel = {
+	_object = (_this select 0);
+	_cost = (_this select 1);
+	_unit = (_this select 2);
+
+	{
+		_unit removeAction _x;
+	} forEach ARES_buildActions;
+
+	deleteVehicle _object;
+};
+
 ARES_showGui = {
 	disableSerialization;
 	createDialog "ARES_BuyMenu_Dialog";
+};
+
+ARES_showBuildGui = {
+	disableSerialization;
+	createDialog "ARES_BuildMenu_Dialog";
 };
 
 ARES_requestMission = {

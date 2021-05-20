@@ -3,6 +3,7 @@ _curators = allcurators;
 
 ARES_saveMission = {
 	"[ ~ ] Save started..." remoteExec ["systemChat"];
+	diag_log "[ ~ ] Save started...";
 	profileNamespace setVariable ["ARES_resourceCounterSave", resourceCounterVar];
 	profileNamespace setVariable ["ARES_supportCounterSave", resourceCounterVar];
 	_savedVehicles = [];
@@ -17,6 +18,7 @@ ARES_saveMission = {
 			_cargoItem = getItemCargo _x;
 			_cargoWeapon = getWeaponCargo _x;
 			_cargoMagazine = getMagazineCargo _x;
+			_cargoBackpack = getBackpackCargo _x;
 			_cargo = [[], []];
 			
 			(_cargo select 0) append (_cargoItem select 0);
@@ -26,8 +28,9 @@ ARES_saveMission = {
 			(_cargo select 1) append (_cargoWeapon select 1);
 			(_cargo select 1) append (_cargoMagazine select 1);
 
-			_vehicleData = [[_className, _postion, _status, _rotationDir, _rotationUp, _cargo]];
+			_vehicleData = [[_className, _postion, _status, _rotationDir, _rotationUp, _cargo, _cargoBackpack]];
 			(str _vehicleData) remoteExec ["systemChat"];
+			diag_log _vehicleData;
 			_savedVehicles append _vehicleData;
 			sleep 0.01;
 		};
@@ -35,10 +38,12 @@ ARES_saveMission = {
 	} forEach allMissionObjects "all";
 	profileNamespace setVariable ["ARES_savedVehicles", _savedVehicles];
 	"[ * ] Mission saved" remoteExec ["systemChat"];
+	diag_log "[ * ] Mission saved";
 };
 
 ARES_loadMission = {
 	"[ ~ ] Load started..." remoteExec ["systemChat"];
+	diag_log "[ ~ ] Load started...";
 	["resourceCounter", (profileNamespace getVariable ["ARES_resourceCounterSave", 0])] call ARES_updateCounter;
 	["supportCounter", (profileNamespace getVariable ["ARES_supportCounterSave", 0])] call ARES_updateSupportCounter;
 
@@ -52,9 +57,11 @@ ARES_loadMission = {
 		_rotationDir = (_x select 3);
 		_rotationUp = (_x select 4);
 		_cargo = (_x select 5);
+		_cargoBackpack = (_x select 6);
 
-		_vehicleData = [_className, _postion, _status, _rotationDir, _rotationUp, _cargo];
+		_vehicleData = [_className, _postion, _status, _rotationDir, _rotationUp, _cargo, _cargoBackpack];
 		(str _vehicleData) remoteExec ["systemChat"];
+		diag_log _vehicleData;
 		
 		_vehicle = createVehicle [_className, _postion, [], 0, "CAN_COLLIDE"];
 		sleep 0.05;
@@ -65,11 +72,18 @@ ARES_loadMission = {
 		clearWeaponCargoGlobal _vehicle;
 		clearMagazineCargoGlobal _vehicle;
 		clearItemCargoGlobal _vehicle;
+		clearBackpackCargoGlobal _vehicle;
 		_cargoLength = count (_cargo select 0);
 		for [{_i = 0}, {_i < _cargoLength}, {_i = _i + 1}] do {
 			_cargoNameList = (_cargo select 0);
 			_cargoCountList = (_cargo select 1);
 			_vehicle addItemCargoGlobal [(_cargoNameList select _i), (_cargoCountList select _i)];
+		};
+		_cargoBackpackLength = count (_cargoBackpack select 0);
+		for [{_i = 0}, {_i < _cargoBackpackLength}, {_i = _i + 1}] do {
+			_cargoNameList = (_cargoBackpack select 0);
+			_cargoCountList = (_cargoBackpack select 1);
+			_vehicle addBackpackCargoGlobal [(_cargoNameList select _i), (_cargoCountList select _i)];
 		};
 		sleep 0.1;
 		_vehicle enableSimulationGlobal true;
@@ -78,6 +92,7 @@ ARES_loadMission = {
 		};
 	} forEach _savedVehicles;
 	"[ * ] Mission loaded" remoteExec ["systemChat"];
+	diag_log "[ * ] Mission loaded";
 };
 
 _nil = [] spawn {
@@ -111,7 +126,7 @@ if ((["autoTask", 0] call BIS_fnc_getParamValue) == 1) then {
 
 _nil = [] spawn {
 	while {true} do {
-		_delete = nearestObjects [mapCenter, ["O_Truck_02_covered_F", "O_Truck_02_transport_F", "O_Truck_02_box_F", "O_Truck_02_medical_F", "O_Truck_02_fuel_F", "O_Truck_02_Ammo_F"], 12000];
+		_delete = nearestObjects [mapCenter, ["O_Truck_02_covered_F", "O_Truck_02_transport_F", "O_Truck_02_box_F", "O_Truck_02_medical_F", "O_Truck_02_fuel_F", "O_Truck_02_Ammo_F", "UK3CB_TKA_O_BM21"], 12000];
 		{
 			deleteVehicle _x;
 		} forEach _delete;
@@ -125,3 +140,5 @@ _nil = [] spawn {
 		remoteExec ['ARES_loadMission', 2];
 	};
 };
+
+[ChaosJammer] remoteExec ["ARES_chaosJammer", 0, true]
