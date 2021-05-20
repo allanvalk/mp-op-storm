@@ -152,14 +152,14 @@ ARES_build = {
 	};
 
 	_object = _entity createVehicle [0,0,0];
-	[_unit, _object, [0, 7, 0.5], 90] call BIS_fnc_relPosObject;
-	_object attachTo [player, [0, 7, 0.5]];
+	[_unit, _object, [0, 8, 0.5], 90] call BIS_fnc_relPosObject;
+	_object attachTo [player, [0, 8, 0.5]];
 	_object enableSimulationGlobal true;
 	_unit enableSimulationGlobal true;
 	_buildAction = _unit addAction ["Build", { [(_this select 3 select 0), (_this select 3 select 1), (_this select 3 select 2)] call ARES_buildPlace; }, [_object, _cost, _unit], 1, true, true, "", "true", 1, false, "", ""];
 	_cancelAction = _unit addAction ["Cancel", { [(_this select 3 select 0), (_this select 3 select 1), (_this select 3 select 2)] call ARES_buildCancel; }, [_object, _cost, _unit], 1, true, true, "", "true", 1, false, "", ""];
-	_upAction = _unit addAction ["Up", { _object = (_this select 3 select 0); detach _object; _pos = getPos _object; _object setPos (getPos _object vectorAdd [0,0,0.25]); _object attachTo [player]; }, [_object, _cost, _unit], 1, true, true, "", "true", 1, false, "", ""];
-	_downAction = _unit addAction ["Down", { _object = (_this select 3 select 0); detach _object; _pos = getPos _object; _object setPos (getPos _object vectorAdd [0,0,-0.25]); _object attachTo [player]; }, [_object, _cost, _unit], 1, true, true, "", "true", 1, false, "", ""];
+	_upAction = _unit addAction ["Up", { _object = (_this select 3 select 0); detach _object; _pos = getPos _object; _object setPos (getPos _object vectorAdd [0,0,0.25]); _object attachTo [player]; }, [_object, _cost, _unit], 1, true, false, "", "true", 1, false, "", ""];
+	_downAction = _unit addAction ["Down", { _object = (_this select 3 select 0); detach _object; _pos = getPos _object; _object setPos (getPos _object vectorAdd [0,0,-0.25]); _object attachTo [player]; }, [_object, _cost, _unit], 1, true, false, "", "true", 1, false, "", ""];
 	ARES_buildActions = [_buildAction, _cancelAction, _upAction, _downAction];
 };
 
@@ -179,6 +179,7 @@ ARES_buildPlace = {
 	["resourceCounter", -(_cost)] call ARES_updateCounter;
 	detach _object;
 	_object addAction ["Delete", { deleteVehicle (_this select 3 select 0) }, [_object, _cost, _unit], -1, false, true, "", "true", 5, false, "", ""];
+	_object enableSimulationGlobal true;
 };
 
 ARES_buildCancel = {
